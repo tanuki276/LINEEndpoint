@@ -12,6 +12,9 @@
   <script>
     async function main() {
       try {
+        // SDKのグローバル変数はLineMiniApp（大文字L,M,A）として存在するはず
+        const lineMiniApp = new LineMiniApp();
+
         // MiniApp SDKの初期化
         await lineMiniApp.init();
 
