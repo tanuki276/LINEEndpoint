@@ -2,29 +2,26 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>LIFF Sample</title>
-  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <title>LINE Mini App Sample</title>
+  <script src="https://cdn.jsdelivr.net/npm/@line/miniapp-sdk@latest/dist/line-miniapp-sdk.min.js"></script>
 </head>
 <body>
-  <h1>LIFFアプリへようこそ</h1>
-  <div id="greeting"></div>
+  <h1>LINEミニアプリへようこそ</h1>
+  <div id="greeting">読み込み中...</div>
 
   <script>
-    const liffId = "2007536956-bdRXjzeQ";
-
     async function main() {
-      await liff.init({ liffId });
+      try {
+        // MiniApp SDKの初期化
+        await lineMiniApp.init();
 
-      if (!liff.isLoggedIn()) {
-        liff.login();
-      } else {
-        try {
-          const profile = await liff.getProfile();
-          document.getElementById('greeting').textContent = `こんにちは、${profile.displayName}さん！`;
-        } catch (error) {
-          console.error('プロフィール取得エラー:', error);
-          document.getElementById('greeting').textContent = 'プロフィール取得に失敗しました。';
-        }
+        // ユーザー情報の取得
+        const userProfile = await lineMiniApp.getUserProfile();
+
+        document.getElementById('greeting').textContent = `こんにちは、${userProfile.displayName}さん！`;
+      } catch (error) {
+        console.error('プロフィール取得エラー:', error);
+        document.getElementById('greeting').textContent = 'プロフィール取得に失敗しました。';
       }
     }
 
