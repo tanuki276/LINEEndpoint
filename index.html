@@ -2,14 +2,15 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>LINE Mini App Test</title>
-  <script src="https://cdn.jsdelivr.net/npm/@line/miniapp-sdk@latest/dist/line-miniapp-sdk.min.js"></script>
+  <title>LINE Mini App Sample (Module)</title>
 </head>
 <body>
-  <h1>テスト</h1>
+  <h1>LINEミニアプリへようこそ</h1>
   <pre id="log">読み込み中...</pre>
 
-  <script>
+  <script type="module">
+    import { LineMiniApp } from 'https://cdn.jsdelivr.net/npm/@line/miniapp-sdk@latest/dist/line-miniapp-sdk.min.js';
+
     function log(msg) {
       const logElem = document.getElementById('log');
       logElem.textContent += '\n' + msg;
@@ -17,11 +18,10 @@
 
     (async () => {
       try {
-        log('window.LineMiniApp: ' + (window.LineMiniApp ? 'あり' : 'なし'));
-        log('window.lineMiniApp: ' + (window.lineMiniApp ? 'あり' : 'なし'));
+        log('LineMiniApp モジュール読み込み完了');
 
         const lineMiniApp = new LineMiniApp();
-        log('LineMiniApp インスタンス作成完了');
+        log('LineMiniApp インスタンス生成完了');
 
         await lineMiniApp.init();
         log('lineMiniApp.init() 完了');
@@ -29,7 +29,7 @@
         const profile = await lineMiniApp.getUserProfile();
         log('ユーザープロフィール取得成功: ' + JSON.stringify(profile));
 
-        document.getElementById('log').textContent += `\nこんにちは、${profile.displayName}さん！`;
+        log(`こんにちは、${profile.displayName}さん！`);
       } catch (e) {
         log('エラー: ' + e.message);
       }
