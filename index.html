@@ -2,33 +2,38 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>LINE Mini App Sample</title>
+  <title>LINE Mini App Test</title>
   <script src="https://cdn.jsdelivr.net/npm/@line/miniapp-sdk@latest/dist/line-miniapp-sdk.min.js"></script>
 </head>
 <body>
-  <h1>LINEミニアプリへようこそ</h1>
-  <div id="greeting">読み込み中...</div>
+  <h1>テスト</h1>
+  <pre id="log">読み込み中...</pre>
 
   <script>
-    async function main() {
-      try {
-        // SDKのグローバル変数はLineMiniApp（大文字L,M,A）として存在するはず
-        const lineMiniApp = new LineMiniApp();
-
-        // MiniApp SDKの初期化
-        await lineMiniApp.init();
-
-        // ユーザー情報の取得
-        const userProfile = await lineMiniApp.getUserProfile();
-
-        document.getElementById('greeting').textContent = `こんにちは、${userProfile.displayName}さん！`;
-      } catch (error) {
-        console.error('プロフィール取得エラー:', error);
-        document.getElementById('greeting').textContent = 'プロフィール取得に失敗しました。';
-      }
+    function log(msg) {
+      const logElem = document.getElementById('log');
+      logElem.textContent += '\n' + msg;
     }
 
-    main();
+    (async () => {
+      try {
+        log('window.LineMiniApp: ' + (window.LineMiniApp ? 'あり' : 'なし'));
+        log('window.lineMiniApp: ' + (window.lineMiniApp ? 'あり' : 'なし'));
+
+        const lineMiniApp = new LineMiniApp();
+        log('LineMiniApp インスタンス作成完了');
+
+        await lineMiniApp.init();
+        log('lineMiniApp.init() 完了');
+
+        const profile = await lineMiniApp.getUserProfile();
+        log('ユーザープロフィール取得成功: ' + JSON.stringify(profile));
+
+        document.getElementById('log').textContent += `\nこんにちは、${profile.displayName}さん！`;
+      } catch (e) {
+        log('エラー: ' + e.message);
+      }
+    })();
   </script>
 </body>
 </html>
